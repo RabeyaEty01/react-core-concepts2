@@ -8,6 +8,36 @@ function App() {
     <div className="App">
       <Counter></Counter>
       <ExternalUsers></ExternalUsers>
+      <LoadComments></LoadComments>
+    </div>
+  );
+}
+
+function LoadComments() {
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    fetch('http://jsonplaceholder.typicode.com/posts')
+    .then(res=>res.json())
+    .then(data=>setComments(data))
+  }, []);
+
+
+  return (
+    <div>
+      <h2>Load Comments</h2>
+      {
+        comments.map(comment => <Comment title={comment.title} body={comment.body}></Comment> )
+      }
+    </div>
+  );
+}
+
+
+function Comment(props) {
+  return (
+    <div style={{backgroundColor:'yellow', margin:'20px', border:'2px solid blue', borderRadius:'20px'}}>
+      <h4>Title: {props.title}</h4>
+      <p>Body: {props.body}</p>
     </div>
   );
 }
@@ -17,8 +47,8 @@ function ExternalUsers() {
 
   useEffect(() => {
     fetch('http://jsonplaceholder.typicode.com/users')
-    .then(res => res.json())
-    .then(data => setUsers(data))
+      .then(res => res.json())
+      .then(data => setUsers(data))
   }, [])
 
 
@@ -26,18 +56,18 @@ function ExternalUsers() {
     <div>
       <h3>External Users</h3>
       {
-        users.map(user=> <User name={user.name} email={user.email}></User>)
+        users.map(user => <User name={user.name} email={user.email}></User>)
       }
     </div>
   );
 }
 
-function User(props){
-  return(
-<div className="product">
-  <h2>name: {props.name}</h2>
-  <p>email: {props.email}</p>
-</div>
+function User(props) {
+  return (
+    <div className="product" style={{border:'3px solid blue', borderRadius:'20px'}}>
+      <h2>name: {props.name}</h2>
+      <p>email: {props.email}</p>
+    </div>
   );
 }
 
